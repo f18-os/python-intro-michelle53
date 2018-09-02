@@ -14,7 +14,7 @@ Specifications:
 """
 import sys        # command line arguments
 import os         # checking if file exists
-import string
+import re         # regular expressions
 
 # Check if the number of arguments is correct
 if ( len( sys.argv ) ) is not 3:
@@ -24,7 +24,8 @@ if ( len( sys.argv ) ) is not 3:
 
 # Remove punctuation
 def remove_punctuation( word ):
-    return word.replace('"', '').replace(',', '').replace('.', '').replace('\n', '').replace(':', '').replace(':', '').replace(';', '')
+    word = re.split('[.,;:"\n]', word)
+    return word[ 0 ]
 
 # Word Count Dictionary creation based on input
 def word_count_dictionary( inputFileName ):

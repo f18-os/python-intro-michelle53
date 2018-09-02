@@ -22,20 +22,16 @@ if ( len( sys.argv ) ) is not 3:
     print( "Example: python wordCount.py input.txt output.txt" )
     exit()   
 
-# Remove punctuation
-def remove_punctuation( word ):
-    word = re.split('[.,;:"\n]', word)
-    return word[ 0 ]
-
 # Word Count Dictionary creation based on input
 def word_count_dictionary( inputFileName ):
     wordDictionary = {} # Initialize Dictionary
     inputFile = open( inputFileName, 'r' ) # Open input file
     with inputFile as inputText: # traverse file
         for line in inputText: # traverse lines of file
-            lineArray = line.split( ' ' ) # split the line into words based on a space seperation
+            lineArray = re.split( '[ -.,;:"\n]', line ) # split the line into words based on a space seperation
             for word in lineArray:
-                word = remove_punctuation( word ).lower()
+                word = re.split('[.,;:"\n]', word)
+                word = word[0].lower()
                 if word == '': # Avoid empty strings
                     print()
                 elif word in wordDictionary: # If word already in dictionary add 1

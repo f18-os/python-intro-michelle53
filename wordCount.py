@@ -1,7 +1,7 @@
 """
 Title: Word Count Program
 Author: Michelle Patino
-Last Modified: September 1, 2018
+Last Modified: September 3, 2018
 Specifications:
 -takes as input the name of an input file and output file
     -$ python wordCount.py input.txt output.txt
@@ -30,8 +30,7 @@ def word_count_dictionary( inputFileName ):
         for line in inputText: # traverse lines of file
             lineArray = re.split( '[ -.,;:"\n]', line ) # split the line into words based on a space seperation
             for word in lineArray:
-                word = re.split('[.,;:"\n]', word)
-                word = word[0].lower()
+                word = word.lower()
                 if word == '': # Avoid empty strings
                     print()
                 elif word in wordDictionary: # If word already in dictionary add 1

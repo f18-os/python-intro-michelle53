@@ -9,10 +9,26 @@ if rc < 0:
     sys.exit(1)
 
 elif rc == 0:                   # child
+   
+    file_out = ''
     args = input('>> ') # get command
     if len(args) == 0 :
         sys.exit(1)
-    args = re.split(' ', args)
+    args = re.split('>', args)
+    if len(args) == 2:
+        file_out = re.split(' ', args[1])
+        file_out = file_out[1]
+        args = re.split(' ', args[0])
+        args = args[:-1]
+    else:
+        args = re.split(' ', args[0])
+       # args = args[:-1]
+    os.close(1)
+    if file_out != '':
+        sys.stdout = open(file_out, 'w' )
+        fd = sys.stdout.fileno()
+        os.set_inheritable(fd, True)               
+    
     for dir in re.split(":", os.environ['PATH']): # try each directory in the path
         program = "%s/%s" % (dir, args[0])
         try:

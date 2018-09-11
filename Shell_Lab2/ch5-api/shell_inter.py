@@ -12,18 +12,32 @@ elif rc == 0:                   # child
    
     file_out = ''
     file_in = ''
+    r_direct = False
+    l_direct = False
     args = input('>> ') # get command
     if len(args) == 0 :
         sys.exit(1)
-    args = re.split('>', args)
+    if '>' in args:
+        r_direct = True
+    elif '<' in args:
+        l_direct = True
+    args = re.split('[><]', args)
     if len(args) == 2:
-        file_out = re.split(' ', args[1])
-        file_out = file_out[1]
-        args = re.split(' ', args[0])
-        args = args[:-1]
-        os.close(1)
+        if r_direct == True:
+            file_out = re.split(' ', args[1])
+            file_out = file_out[1]
+            args = re.split(' ', args[0])
+            args = args[:-1]
+            os.close(1)
+        elif l_direct == True:
+            file_in = re.split(' ', args[1])
+            file_in = file_in[1]
+            args = re.split(' ', args[0])
+            args = args[:-1]
+            args.append(file_in)
     else:
         args = re.split(' ', args[0])
+        # os.close(1)
     if file_out != '':
         sys.stdout = open(file_out, 'w' )
         fd = sys.stdout.fileno()

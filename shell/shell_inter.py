@@ -43,12 +43,10 @@ def shell_implement(args):
             execute_shell(args)
         elif p_pipe == True: # pipe
             part2 = re.split(' ', args[1])
-            part2 = part2[1]
             part1 = args[0] # part 1 - output should be executed in part2
             part1 = re.split(' ', part1)
             part1_output = subprocess.check_output(part1[:-1]).strip()
-            args = []
-            args.append(part2)
+            args = part2[1:]
             args.append(part1_output)
             execute_shell(args)
     else: # no redirection

@@ -10,12 +10,15 @@ To run the program you need to first do the following:
 python3 shell_inter.py
 
 ~~~
-
+To end shell:
+~~~
+die
+~~~
 
 Some Examples(tested):
 ~~~
 echo hello
 wc shell_inter.py > shell_word_count,txt
 ls -l | more
-python ../wordCount.py < somefilename.txt
+wc -l < myoutput
 ~~~

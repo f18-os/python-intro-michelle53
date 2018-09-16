@@ -46,7 +46,7 @@ def shell_implement(args):
             part2 = part2[1]
             part1 = args[0] # part 1 - output should be executed in part2
             part1 = re.split(' ', part1)
-            part1_output = subprocess.check_output([part1[0], part1[1]]).strip()
+            part1_output = subprocess.check_output(part1[:-1]).strip()
             args = []
             args.append(part2)
             args.append(part1_output)

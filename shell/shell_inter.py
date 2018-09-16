@@ -2,21 +2,14 @@
 
 import os, sys, time, re
 
-pid = os.getpid()
-rc = os.fork()
 
-if rc < 0:
-    sys.exit(1)
 
-elif rc == 0:                   # child
-   
+# shell code
+def shell_implement(args):
     file_out = '' # file to write to
     
     r_direct = False # check if output redirection
     l_direct = False # check if input redirection
-    args = input('>> ') # get command 
-    if len(args) == 0 : #if no argument exit
-        sys.exit(1)
     if '>' in args: # right redirection
         r_direct = True
     elif '<' in args: # left redirection
@@ -36,8 +29,7 @@ elif rc == 0:                   # child
             args = args[:-1]
             args.append(file_in)
     else: # no redirection
-        args = re.split(' ', args[0])
-      
+        args = re.split(' ', args[0])            
     if file_out != '': # set file to be written to as output
         sys.stdout = open(file_out, 'w' )
         fd = sys.stdout.fileno()
@@ -48,8 +40,30 @@ elif rc == 0:                   # child
             os.execve(program, args, os.environ) # try to exec program
         except FileNotFoundError:             # ...expected
             pass                              # ...fail quietly
+    
+if __name__ == '__main__':
+    continue_fork = True
+  
+    while(continue_fork):
+        args = ''
+        if continue_fork == True:
+            args = input('>>')
+            if args == 'die' or args == '':
+                continue_fork == False
+                sys.exit(1)
+    
+        rc = os.fork()
+        if rc < 0:
+            sys.exit(1)
+    
+        elif rc == 0: # child
+            if args != 'die':
+                shell_implement(args)
+            sys.exit(1)                # terminate with error
+            
+        else:                           # parent (forked ok)
+            childPidCode = os.wait()
 
-    sys.exit(1)                 # terminate with error
 
-else:                           # parent (forked ok)
-    childPidCode = os.wait()
+
+            

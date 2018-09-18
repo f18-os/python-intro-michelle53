@@ -12,13 +12,14 @@ python3 shell_inter.py
 ~~~
 To end shell:
 ~~~
-die
+bye
 ~~~
 
 Some Examples(tested):
 ~~~
 echo hello
 wc shell_inter.py > shell_word_count,txt
-ls -l | more
+ls | more
+ls | sort
 wc -l < myoutput
 ~~~

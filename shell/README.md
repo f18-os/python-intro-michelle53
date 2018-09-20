@@ -26,4 +26,5 @@ wc shell_inter.py > shell_word_count.txt
 ls | more
 ls | sort
 wc -l < myoutput
+cd ../
 ~~~

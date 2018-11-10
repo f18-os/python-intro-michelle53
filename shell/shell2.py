@@ -5,14 +5,11 @@ import os, sys, time, re
 
 # execute shell
 def execute_shell(args):
-    if 'cd' in args[0]:
-        #new_directory = re.split(' ', args)
-        os.chdir( args[1] )
-        return
+    if args[0] == '':
+        sys.exit(1)
     elif '/' in args[0]:
         try:
             os.execve(args[0], args, os.environ)
-            
         except FIleNotFoundError:
             pass
     else:
@@ -29,8 +26,7 @@ def execute_shell(args):
 def pipe(args):
     args = re.split('[|]', args)
     args = [ x.strip(' ') for x in args]
-    args[0] = re.split(' ', args[0])
-    
+    args[0] = re.split(' ', args[0])    
     read, write = os.pipe()
     rc = os.fork()
 
@@ -58,6 +54,17 @@ def shell_implement(args):
        args = re.split(' ', args)
        execute_shell(args)
 
+    
+def shell(args):
+    rc = os.fork()
+    if rc < 0:
+        print( 'error in forking: ' + rc )
+        sys.exit( 1 )
+    elif rc == 0:
+        shell_implement( args )
+    else:
+        childPid = os.wait()
+
 
 # check ps1
 try:
@@ -66,11 +73,14 @@ except:
     PS1 = '$'
 
 try:
-    args = input( PS1 )    
-    rc = os.fork()
-    if rc == 0:
-        shell_implement(args)
-    else:
-        childPid = os.wait()
+    #args = input( PS1 )
+    for line in sys.stdin.readlines():
+        if 'cd' in line:
+            directory = re.split(' ', line.strip() )
+            os.chdir( directory[ 1 ] )
+        
+        else:
+            shell(line.strip())
+
 except EOFError:
     pass

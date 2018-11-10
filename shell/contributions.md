@@ -5,3 +5,4 @@
 - Python os.pipe(): https://www.tutorialspoint.com/python/os_pipe.htm helped with understanding what pipe does and how pipe works.
 - Fernando Martinez: Helped me in the beginning stages to figure out why my
 - original shell was not working how it should.
+- simple list string whitespace removal: https://stackoverflow.com/questions/3232953/python-removing-spaces-from-list-objects
